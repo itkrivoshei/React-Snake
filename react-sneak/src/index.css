@@ -1,0 +1,15 @@
+.game {
+  position: relative;
+  margin: 50px auto;
+  width: 600px;
+  height: 600px;
+  border: 1px solid black;
+}
+
+.sneakPart {
+  position: absolute;
+  width: 2%;
+  height: 2%;
+  background-color: black;
+  border: 1px solid white;
+}
