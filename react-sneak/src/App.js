@@ -31,6 +31,7 @@ class App extends Component {
   componentDidUpdate() {
     this.ifOutBorder();
     this.ifCollapse();
+    this.ifEat();
   }
 
   onKeyDown = (e) => {
@@ -88,11 +89,37 @@ class App extends Component {
     let head = snake[snake.length - 1];
     snake.pop();
     snake.forEach((part) => {
-      if (head[0] == part[0] && head[1] == part[1]) {
+      if (head[0] === part[0] && head[1] === part[1]) {
         this.gameOver();
       }
     });
   }
+
+  ifEat() {
+    let head = this.state.snakePart[this.state.snakePart.length - 1];
+    let food = this.state.food;
+    if (head[0] === food[0] && head[1] === food[1]) {
+      this.setState({
+        food: getRandomFood(),
+      });
+      this.incSnake();
+      // this.incSpeed();
+    }
+  }
+
+  incSnake() {
+    let newSnake = [...this.state.snakePart];
+    newSnake.unshift([]);
+    this.setState({
+      snakePart: newSnake,
+    });
+  }
+
+  // incSpeed() {
+  //   if (this.state.speed > 50) {
+  //     return this.state.speed - 100;
+  //   }
+  // }
 
   gameOver() {
     alert(`Game Over, snake lenght is: ${this.state.snakePart.length}`);
