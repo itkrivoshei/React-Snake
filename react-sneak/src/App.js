@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Sneak from "./Sneak";
+import Snake from "./Snake";
 import Food from "./Food";
 
 const getRandomFood = () => {
@@ -7,51 +7,57 @@ const getRandomFood = () => {
   let max = 98;
   let x = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
   let y = Math.floor((Math.random() * (max - min + 1) + min) / 2) * 2;
-  return [x, y]
-}
+  return [x, y];
+};
+
+const initialState = {
+  food: getRandomFood(),
+  speed: 200,
+  derection: "RIGHT",
+  snakePart: [
+    [0, 0],
+    [2, 0],
+  ],
+};
 
 class App extends Component {
-  state = {
-    food: getRandomFood(),
-    speed: 200,
-    derection: "RIGHT",
-    sneakPart: [
-      [0, 0],
-      [2, 0],
-    ],
-  };
+  state = initialState;
 
   componentDidMount() {
     setInterval(this.move, this.state.speed);
-    document.onkeydown = this.onKeyDown
+    document.onkeydown = this.onKeyDown;
+  }
+
+  componentDidUpdate() {
+    this.ifOutBorder();
   }
 
   onKeyDown = (e) => {
     e = e || window.event;
     switch (e.keyCode) {
       case 38:
-        this.setState({derection: "UP"});
+        this.setState({ derection: "UP" });
         break;
       case 40:
-        this.setState({derection: "DOWN"});
+        this.setState({ derection: "DOWN" });
         break;
       case 37:
-        this.setState({derection: "LEFT"});
+        this.setState({ derection: "LEFT" });
         break;
       case 39:
-        this.setState({derection: "RIGHT"});
+        this.setState({ derection: "RIGHT" });
         break;
     }
-  }
+  };
 
   move = () => {
-    let part = [...this.state.sneakPart];
+    let part = [...this.state.snakePart];
     let head = part[part.length - 1];
 
     switch (this.state.derection) {
       case "RIGHT":
         head = [head[0] + 2, head[1]];
-      break;
+        break;
       case "LEFT":
         head = [head[0] - 2, head[1]];
         break;
@@ -65,14 +71,30 @@ class App extends Component {
     part.push(head);
     part.shift();
     this.setState({
-      sneakPart: part,
-    })
+      snakePart: part,
+    });
+  };
+
+  ifOutBorder() {
+    let head = this.state.snakePart[this.state.snakePart.length - 1];
+    if (head[0] >= 100 || head[1] >= 100 || head[0] < 0 || head[1] < 0) {
+      this.gameOver();
+    }
+  }
+
+  ifCollapse() {
+    let snake 
+  }
+
+  gameOver() {
+    alert(`Game Over, snake lenght is: ${this.state.snakePart.length}`);
+    this.setState(initialState);
   }
 
   render() {
     return (
       <div className="game">
-        <Sneak sneakPart={this.state.sneakPart} />
+        <Snake snakePart={this.state.snakePart} />
         <Food part={this.state.food} />
       </div>
     );
