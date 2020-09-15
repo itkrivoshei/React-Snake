@@ -30,6 +30,7 @@ class App extends Component {
 
   componentDidUpdate() {
     this.ifOutBorder();
+    this.ifCollapse();
   }
 
   onKeyDown = (e) => {
@@ -83,7 +84,14 @@ class App extends Component {
   }
 
   ifCollapse() {
-    let snake 
+    let snake = [...this.state.snakePart];
+    let head = snake[snake.length - 1];
+    snake.pop();
+    snake.forEach(part => {
+      if (head[0] == part[0] && head[1] == part[1]) {
+        this.gameOver();
+      }
+    })
   }
 
   gameOver() {
