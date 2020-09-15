@@ -87,11 +87,11 @@ class App extends Component {
     let snake = [...this.state.snakePart];
     let head = snake[snake.length - 1];
     snake.pop();
-    snake.forEach(part => {
+    snake.forEach((part) => {
       if (head[0] == part[0] && head[1] == part[1]) {
         this.gameOver();
       }
-    })
+    });
   }
 
   gameOver() {
