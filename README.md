@@ -1,5 +1,5 @@
 # React-Snake
-This project was created to practice in JavaScript, React, SCSS and more.
+In this project I wrote a Snake-Game on React - crawl, eat apples, grow and speed up, in general, this is a standard Snake-Game.
 ## Browse
 You can check this project in web here: [React-Snake](https://it-krivoshey.github.io/React-Snake)
 ## License
