@@ -17,14 +17,18 @@ const initialState = {
   snakePart: [
     [0, 0],
     [2, 0],
+    [4, 0],
   ],
 };
 
 class App extends Component {
-  state = initialState;
+  constructor(props) {
+    super();
+    this.state = initialState;
+  }
 
   componentDidMount() {
-    setInterval(this.move, this.state.speed);
+    this.speed();
     document.onkeydown = this.onKeyDown;
   }
 
@@ -32,6 +36,12 @@ class App extends Component {
     this.ifOutBorder();
     this.ifCollapse();
     this.ifEat();
+    this.speed();
+  }
+
+  speed() {
+    clearInterval(this.interval);
+    this.interval = setInterval(this.move, this.state.speed);
   }
 
   onKeyDown = (e) => {
@@ -99,11 +109,12 @@ class App extends Component {
     let head = this.state.snakePart[this.state.snakePart.length - 1];
     let food = this.state.food;
     if (head[0] === food[0] && head[1] === food[1]) {
-      this.setState({
-        food: getRandomFood(),
-      });
-      this.incSnake();
-      // this.incSpeed();
+      let newState = { ...this.state.snakePart };
+      newState.food = getRandomFood();
+      newState.snakePart = this.incSnake();
+      this.speed = this.incSpeed();
+      this.setState(newState);
+      this.incSpeed();
     }
   }
 
@@ -115,11 +126,11 @@ class App extends Component {
     });
   }
 
-  // incSpeed() {
-  //   if (this.state.speed > 50) {
-  //     return this.state.speed - 100;
-  //   }
-  // }
+  incSpeed() {
+    if (this.state.speed > 50) {
+      return this.state.speed - 100;
+    }
+  }
 
   gameOver() {
     alert(`Game Over, snake lenght is: ${this.state.snakePart.length}`);
