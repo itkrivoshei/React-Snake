@@ -27,16 +27,16 @@ class App extends Component {
     this.state = initialState;
   }
 
-  componentDidMount() {
-    this.speed();
-    document.onkeydown = this.onKeyDown;
-  }
-
   componentDidUpdate() {
     this.ifOutBorder();
     this.ifCollapse();
     this.ifEat();
     this.speed();
+  }
+
+  componentDidMount() {
+    this.speed();
+    document.onkeydown = this.onKeyDown;
   }
 
   speed() {
@@ -109,26 +109,24 @@ class App extends Component {
     let head = this.state.snakePart[this.state.snakePart.length - 1];
     let food = this.state.food;
     if (head[0] === food[0] && head[1] === food[1]) {
-      let newState = { ...this.state.snakePart };
+      let newState = { ...this.state };
       newState.food = getRandomFood();
       newState.snakePart = this.incSnake();
-      this.speed = this.incSpeed();
+      newState.speed = this.incSpeed();
       this.setState(newState);
-      this.incSpeed();
+      this.speed();
     }
   }
 
   incSnake() {
     let newSnake = [...this.state.snakePart];
     newSnake.unshift([]);
-    this.setState({
-      snakePart: newSnake,
-    });
+    return newSnake;
   }
 
   incSpeed() {
     if (this.state.speed > 50) {
-      return this.state.speed - 100;
+      return this.state.speed - 10;
     }
   }
 
