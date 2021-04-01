@@ -1,5 +1,5 @@
 # React-Snake
-Simple Snake-Game with React.
+Simple React Snake-Game.
 ## Browse
 You can check this project here: [React-Snake](https://it-krivoshey.github.io/React-Snake)
 ## License
